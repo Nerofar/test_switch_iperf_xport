@@ -45,4 +45,3 @@ case $CHOICE in
       3)
       echo "quit"
       ;;
-EOF
