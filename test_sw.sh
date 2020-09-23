@@ -1,9 +1,7 @@
 #!/bin/bash
 yum install -y dialog >> /tmp/test.log
-HEIGHT=30
-WIDTH=80
-CHOICE_HEIGHT=4
-BACKTITLE="Test SW"
+DIALOG="dialog"
+$DIALOG --title "Testing switch" --msgbox "This wizard helps you to testing switches on clear CentOS (6,7,8)" 10 40
 #configuring LAN interface
 ALL_IFACES=`ls /sys/class/net | grep -v lo`
 
