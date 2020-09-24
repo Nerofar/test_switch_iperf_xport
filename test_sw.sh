@@ -35,8 +35,12 @@ infe=`cat /tmp/outfe`
 
 #set number ports of testing switch
 
-ports="$DIALOG --stdout --clear --inputbox " \nК-во проверяемых портов:" 16 51"
-
+$DIALOG --title "Number ports"--inputbox " \nК-во проверяемых портов:" 16 51 2> /tmp/ports
+ports=`cat /tmp/ports`
+# cleaning temp file
+rm -fr /tmp/outfe
+rm -fr /tmp/infe
+rm -fr /tmp/ports
 
 let ports=$ports+1200-1
 for x in $(seq 1200 $ports)
@@ -94,4 +98,7 @@ case $CHOICE in
 
 
 
+
 esac
+#clear vlan
+rm -fr /etc/sysconfig/network-scripts/ifcfg-vlan*
