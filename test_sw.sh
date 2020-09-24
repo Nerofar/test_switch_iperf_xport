@@ -5,7 +5,7 @@ $DIALOG --title "Testing switch" --msgbox "This wizard helps you to testing swit
 #configuring LAN interface
 ALL_IFACES=`ls /sys/class/net | grep -v lo`
 
-INTIF_DIALOG_START="$DIALOG --menu \"Select LAN interface that interracts with your INTERNAL network\" 15 65 6 \\"
+INTIF_DIALOG_START="$DIALOG --menu \"Select ingoing interface that interracts with your INTERNAL network\" 15 65 6 \\"
 INTIF_DIALOG="${INTIF_DIALOG_START}"
 for EACH_IFACE in $ALL_IFACES
 do
@@ -17,6 +17,21 @@ INTIF_DIALOG="${INTIF_DIALOG} 2> /tmp/infe"
 sh -c "${INTIF_DIALOG}"
 clear
 infe=`cat /tmp/infe`
+
+ALL_IFACES=`ls /sys/class/net | grep -v lo`
+
+INTIF_DIALOG_START="$DIALOG --menu \"Select outgoing interface that interracts with your INTERNAL network\" 15 65 6 \\"
+INTIF_DIALOG="${INTIF_DIALOG_START}"
+for EACH_IFACE in $ALL_IFACES
+do
+   LIIFACE_MAC=`ip addr show ${EACH_IFACE} | grep ether | awk {'print $2'} | sed -n '1p'`
+   LIIFACE_IP=`ip addr show ${EACH_IFACE} | grep inet' '| awk {'print $2'} | sed -n '1p'`
+   INTIF_DIALOG="${INTIF_DIALOG}${EACH_IFACE} \\ \"${LIIFACE_IP} - ${LIIFACE_MAC}\" "
+done
+INTIF_DIALOG="${INTIF_DIALOG} 2> /tmp/outfe"
+sh -c "${INTIF_DIALOG}"
+clear
+infe=`cat /tmp/outfe`
 
 #set number ports of testing switch
 
