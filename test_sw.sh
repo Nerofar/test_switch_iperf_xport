@@ -7,7 +7,6 @@ ALL_IFACES=`ls /sys/class/net | grep -v lo`
 
 INTIF_DIALOG_START="$DIALOG --menu \"Select LAN interface that interracts with your INTERNAL network\" 15 65 6 \\"
 INTIF_DIALOG="${INTIF_DIALOG_START}"
-
 for EACH_IFACE in $ALL_IFACES
 do
    LIIFACE_MAC=`ip addr show ${EACH_IFACE} | grep ether | awk {'print $2'} | sed -n '1p'`
@@ -15,12 +14,15 @@ do
    INTIF_DIALOG="${INTIF_DIALOG}${EACH_IFACE} \\ \"${LIIFACE_IP} - ${LIIFACE_MAC}\" "
 done
 INTIF_DIALOG="${INTIF_DIALOG} 2> /tmp/infe"
-
 sh -c "${INTIF_DIALOG}"
 clear
-
 infe=`cat /tmp/infe`
-ports=$(dialog --stdout --title "Ввод данных" --clear --inputbox " \nК-во проверяемых портов:" 16 51)
+
+#set number ports of testing switch
+
+ports="$DIALOG --stdout --clear --inputbox " \nК-во проверяемых портов:" 16 51"
+
+
 let ports=$ports+1200-1
 for x in $(seq 1200 $ports)
 do
@@ -73,3 +75,8 @@ case $CHOICE in
       3)
       echo "quit"
       ;;
+
+
+
+
+esac
