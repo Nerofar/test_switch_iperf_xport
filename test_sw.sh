@@ -3,6 +3,8 @@ yum install -y dialog >> /tmp/test.log
 DIALOG="dialog"
 $DIALOG --title "Testing switch" --msgbox "This wizard helps you to testing switches on clear CentOS (6,7,8)" 10 40
 #configuring LAN interface
+$DIALOG --title "Testing switch" --msgbox "etap 1" 10 40
+
 ALL_IFACES=`ls /sys/class/net | grep -v lo`
 
 INTIF_DIALOG_START="$DIALOG --menu \"Select ingoing interface that interracts with your INTERNAL network\" 15 65 6 \\"
@@ -17,7 +19,10 @@ INTIF_DIALOG="${INTIF_DIALOG} 2> /tmp/infe"
 sh -c "${INTIF_DIALOG}"
 clear
 infe=`cat /tmp/infe`
+$DIALOG --title "Testing switch" --msgbox "etap 1" 10 40
+$DIALOG --title "Testing switch" --msgbox "$infe" 10 40
 
+$DIALOG --title "Testing switch" --msgbox "etap 2" 10 40
 ALL_IFACES=`ls /sys/class/net | grep -v lo`
 
 INTIF_DIALOG_START="$DIALOG --menu \"Select outgoing interface that interracts with your INTERNAL network\" 15 65 6 \\"
@@ -32,15 +37,20 @@ INTIF_DIALOG="${INTIF_DIALOG} 2> /tmp/outfe"
 sh -c "${INTIF_DIALOG}"
 clear
 infe=`cat /tmp/outfe`
+$DIALOG --title "Testing switch" --msgbox "etap 2" 10 40
+$DIALOG --title "Testing switch" --msgbox "$outfe" 10 40
 
 #set number ports of testing switch
-
+$DIALOG --title "Testing switch" --msgbox "etap 3" 10 40
 $DIALOG --title "Number ports"--inputbox " \nК-во проверяемых портов:" 16 51 2> /tmp/ports
 ports=`cat /tmp/ports`
+$DIALOG --title "Testing switch" --msgbox "etap 4" 10 40
+$DIALOG --title "Testing switch" --msgbox "$ports" 10 40
 # cleaning temp file
-rm -fr /tmp/outfe
-rm -fr /tmp/infe
-rm -fr /tmp/ports
+
+#rm -fr /tmp/outfe
+#rm -fr /tmp/infe
+#rm -fr /tmp/ports
 
 let ports=$ports+1200-1
 for x in $(seq 1200 $ports)
@@ -58,16 +68,11 @@ done
 
 TITLE="any"
 MENU="Исходящий свич:"
-
 OPTIONS=(1 "D-link"
          2 "Zysel"
          3 "quit")
 
-              CHOICE=$(dialog --clear \
-                      --backtitle "$BACKTITLE" \
-                      --title "$TITLE" \
-                      --menu "$MENU" \
-                      $HEIGHT $WIDTH $CHOICE_HEIGHT \
+              CHOICE=$(dialog --clear --backtitle "$BACKTITLE" --title "$TITLE" --menu "$MENU" $HEIGHT $WIDTH $CHOICE_HEIGHT \
                       "${OPTIONS[@]}" \
                       2>&1 >/dev/tty)
 clear
@@ -94,11 +99,7 @@ case $CHOICE in
       3)
       echo "quit"
       ;;
-
-
-
-
-
 esac
+
 #clear vlan
-rm -fr /etc/sysconfig/network-scripts/ifcfg-vlan*
+##rm -fr /etc/sysconfig/network-scripts/ifcfg-vlan*
