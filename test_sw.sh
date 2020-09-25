@@ -67,7 +67,7 @@ do
     echo "VID=${x}" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
     ifup vlan${x}
 done
-
+$DIALOG --title "Testing switch" --msgbox "etap 5" 10 40
 TITLE="any"
 MENU="Исходящий свич:"
 OPTIONS=(1 "D-link"
