@@ -56,16 +56,8 @@ rm -fr /tmp/ports
 let ports=$ports+1200-1
 for x in $(seq 1200 $ports)
 do
-    echo "DEVICE=vlan${x}" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
-    echo "ONBOOT=yes" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
-    echo "BOOTPROTO=none" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
-    echo "IPADDR=192.168.${x}.1" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
-    echo "NETMASK=255.255.255.0" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
-    echo "NETWORK=10.0.${x}.0" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
-    echo "BROADCAST=10.0.${x}.255" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
-    echo "PHYSDEV=$infe" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
-    echo "VID=${x}" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
-    ifup vlan${x}
+    nmcli con add type vlan con-name ${infe}.${x} ifname VLAN${x} id ${x} dev ${infe} ip4 10.0.${x}.11/24
+    nmcli con up vlan${x}
 done
 $DIALOG --title "Testing switch" --msgbox "etap 5" 10 40
 TITLE="any"
