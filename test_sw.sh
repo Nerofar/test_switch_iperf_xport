@@ -19,22 +19,23 @@ INTIF_DIALOG="${INTIF_DIALOG} 2> /tmp/infe"
 sh -c "${INTIF_DIALOG}"
 clear
 infe=`cat /tmp/infe`
+
+
 $DIALOG --title "Testing switch" --msgbox "etap 1" 10 40
 $DIALOG --title "Testing switch" --msgbox "$infe" 10 40
 
 $DIALOG --title "Testing switch" --msgbox "etap 2" 10 40
-ALL_IFACES=`ls /sys/class/net | grep -v lo`
-
-INTIF_DIALOG_START="$DIALOG --menu \"Select outgoing interface that interracts with your INTERNAL network\" 15 65 6 \\"
-INTIF_DIALOG="${INTIF_DIALOG_START}"
+#????
+OUTIF_DIALOG_START="$DIALOG --menu \"Select outgoing interface that interracts with your INTERNAL network\" 15 65 6 \\"
+OUTIF_DIALOG="${OUTIF_DIALOG_START}"
 for EACH_IFACE in $ALL_IFACES
 do
-   LIIFACE_MAC=`ip addr show ${EACH_IFACE} | grep ether | awk {'print $2'} | sed -n '1p'`
-   LIIFACE_IP=`ip addr show ${EACH_IFACE} | grep inet' '| awk {'print $2'} | sed -n '1p'`
-   INTIF_DIALOG="${INTIF_DIALOG}${EACH_IFACE} \\ \"${LIIFACE_IP} - ${LIIFACE_MAC}\" "
+   LIIIFACE_MAC=`ip addr show ${EACH_IFACE} | grep ether | awk {'print $2'} | sed -n '1p'`
+   LIIIFACE_IP=`ip addr show ${EACH_IFACE} | grep inet' '| awk {'print $2'} | sed -n '1p'`
+   OUTIF_DIALOG="${OUTIF_DIALOG}${EACH_IFACE} \\ \"${LIIIFACE_IP} - ${LIIIFACE_MAC}\" "
 done
-INTIF_DIALOG="${INTIF_DIALOG} 2> /tmp/outfe"
-sh -c "${INTIF_DIALOG}"
+OUTIF_DIALOG="${OUTIF_DIALOG} 2> /tmp/outfe"
+sh -c "${OUTIF_DIALOG}"
 clear
 infe=`cat /tmp/outfe`
 $DIALOG --title "Testing switch" --msgbox "etap 2" 10 40
