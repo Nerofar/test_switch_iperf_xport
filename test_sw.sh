@@ -43,15 +43,15 @@ $DIALOG --title "Testing switch" --msgbox "$outfe" 10 40
 
 #set number ports of testing switch
 $DIALOG --title "Testing switch" --msgbox "etap 3" 10 40
-$DIALOG --title "Number ports"--inputbox " \nК-во проверяемых портов:" 16 51 2> /tmp/ports
+$DIALOG --title "Number ports" --inputbox " \nК-во проверяемых портов:" 16 51 2> /tmp/ports
 ports=`cat /tmp/ports`
 $DIALOG --title "Testing switch" --msgbox "etap 4" 10 40
-$DIALOG --title "Testing switch" --msgbox "$ports" 10 40
+$DIALOG --title "Testing switch" --msgbox "к-во портов свича $ports" 10 40
 # cleaning temp file
 
-#rm -fr /tmp/outfe
-#rm -fr /tmp/infe
-#rm -fr /tmp/ports
+rm -fr /tmp/outfe
+rm -fr /tmp/infe
+rm -fr /tmp/ports
 
 let ports=$ports+1200-1
 for x in $(seq 1200 $ports)
@@ -65,6 +65,7 @@ do
     echo "BROADCAST=10.0.${x}.255" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
     echo "PHYSDEV=$infe" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
     echo "VID=${x}" >> /etc/sysconfig/network-scripts/ifcfg-vlan${x}
+    ifup vlan${x}
 done
 
 TITLE="any"
