@@ -3,10 +3,7 @@ yum install -y dialog >> /tmp/test.log
 DIALOG="dialog"
 $DIALOG --title "Testing switch" --msgbox "This wizard helps you to testing switches on clear CentOS (7,8)" 10 40
 #configuring LAN interface
-$DIALOG --title "Testing switch" --msgbox "etap 1" 10 40
-
 ALL_IFACES=`ls /sys/class/net | grep -v lo`
-
 INTIF_DIALOG_START="$DIALOG --menu \"Select ingoing interface that interracts with your INTERNAL network\" 15 65 6 \\"
 INTIF_DIALOG="${INTIF_DIALOG_START}"
 for EACH_IFACE in $ALL_IFACES
@@ -19,13 +16,6 @@ INTIF_DIALOG="${INTIF_DIALOG} 2> /tmp/infe"
 sh -c "${INTIF_DIALOG}"
 clear
 infe=`cat /tmp/infe`
-
-
-$DIALOG --title "Testing switch" --msgbox "etap 1" 10 40
-$DIALOG --title "Testing switch" --msgbox "$infe" 10 40
-
-$DIALOG --title "Testing switch" --msgbox "etap 2" 10 40
-#????
 OUTIF_DIALOG_START="$DIALOG --menu \"Select outgoing interface that interracts with your INTERNAL network\" 15 65 6 \\"
 OUTIF_DIALOG="${OUTIF_DIALOG_START}"
 for EACH_IFACE in $ALL_IFACES
@@ -38,9 +28,6 @@ OUTIF_DIALOG="${OUTIF_DIALOG} 2> /tmp/outfe"
 sh -c "${OUTIF_DIALOG}"
 clear
 outfe=`cat /tmp/outfe`
-$DIALOG --title "Testing switch" --msgbox "etap 2" 10 40
-$DIALOG --title "Testing switch" --msgbox "$outfe" 10 40
-
 #set number ports of testing switch
 $DIALOG --title "Testing switch" --msgbox "etap 3" 10 40
 $DIALOG --title "Number ports" --inputbox " \nК-во проверяемых портов:" 16 51 2> /tmp/ports
@@ -58,7 +45,7 @@ for x in $(seq 1200 $ports)
 do
     let y=${x}-1200
     nmcli con add type vlan con-name ${infe}.${x} ifname VLAN${x} id ${x} dev ${infe} ip4 10.0.${y}.11/24
-    nmcli con up vlan${infe}.${x}
+    nmcli con up ${infe}.${x}
 done
 $DIALOG --title "Testing switch" --msgbox "etap 5" 10 40
 TITLE="any"
