@@ -37,7 +37,7 @@ done
 OUTIF_DIALOG="${OUTIF_DIALOG} 2> /tmp/outfe"
 sh -c "${OUTIF_DIALOG}"
 clear
-infe=`cat /tmp/outfe`
+outfe=`cat /tmp/outfe`
 $DIALOG --title "Testing switch" --msgbox "etap 2" 10 40
 $DIALOG --title "Testing switch" --msgbox "$outfe" 10 40
 
