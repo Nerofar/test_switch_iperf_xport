@@ -44,7 +44,7 @@ let ports=$ports+1200-1
 for x in $(seq 1200 $ports)
 do
     let y=${x}-1200
-    nmcli con add type vlan con-name ${infe}.${x} ifname VLAN${x} id ${x} dev ${infe} ip4 10.0.${y}.11/24
+    nmcli con add type vlan con-name ${infe}.${x} ifname ${infe}.${x} id ${x} dev ${infe} ip4 10.0.${y}.11/24
     nmcli con up ${infe}.${x}
 done
 $DIALOG --title "Testing switch" --msgbox "etap 5" 10 40
