@@ -101,8 +101,8 @@ OPTIONS=(1 "D-link"
 clear
 case $CHOICE in
       1)
-      ip netns exec iperf-server1200 iperf3 -s
-      ip netns exec iperf-client1201 iperf3 -c 10.0.0.11 -P 10 -t 300
+      ip netns exec iperf-server${x} iperf3 -s
+      ip netns exec iperf-client${x} iperf3 -c 10.0.${y}.11 -P 10 -t 300
 
       ;;
       2)
