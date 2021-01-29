@@ -34,11 +34,14 @@ $DIALOG --title "Number ports" --inputbox " \nК-во проверяемых п�
 ports=`cat /tmp/ports`
 $DIALOG --title "Testing switch" --msgbox "etap 4" 10 40
 $DIALOG --title "Testing switch" --msgbox "к-во портов свича $ports" 10 40
+$DIALOG --title "Time sec" --inputbox " \nВремя проверки в сек.:" 16 51 2> /tmp/time
+time=`cat /tmp/time`
 # cleaning temp file
 
 rm -fr /tmp/outfe
 rm -fr /tmp/infe
 rm -fr /tmp/ports
+rm -fr /tmp/time
 
 let ports=$ports+1200-1
 for x in $(seq 1200 $ports)
@@ -95,23 +98,37 @@ OPTIONS=(1 "D-link"
          2 "Zysel"
          3 "quit")
 
-              CHOICE=$(dialog --clear --backtitle "$BACKTITLE" --title "$TITLE" --menu "$MENU" $HEIGHT $WIDTH $CHOICE_HEIGHT \
+              CHOICE=$(dialog --clear --title "$TITLE" --menu "$MENU" $HEIGHT $WIDTH $CHOICE_HEIGHT \
                       "${OPTIONS[@]}" \
                       2>&1 >/dev/tty)
 clear
 case $CHOICE in
       1)
-        ip netns exec iperf-server${x} iperf3 -s
-        ip netns exec iperf-client${x} iperf3 -c 10.0.${y}.11 -P 10 -t 300
+      let ports=$ports+1200-1
+      for x in $(seq 1200 $ports)
+      do
+      let y=${x}-1200
+      #создание чёт вход, нечёт выход
+      evenCheck=$(expr ${x} % 2)
+        if [ $evenCheck = 0 ] ;
+          then
+            ip netns exec iperf-server${x} iperf3 -s --logfile s${x}.log &
+          else
+            ip netns exec iperf-client${x} iperf3 -c 10.0.${y}.11 -P 10 -t ${time}
+        fi
+      done
+
       ;;
       2)
-        
+
       ;;
       3)
 
       ;;
 esac
-
+## iperf start
+# ip netns exec iperf-server${x} iperf3 -s --logfile s3.txt
+# ip netns exec iperf-client${x} iperf3 -c 10.0.${y}.11 -P 10 -t 300
 #clear vlan
 ##rm -fr /etc/sysconfig/network-scripts/enp1s0f0.12*
 ##rm -fr /etc/sysconfig/network-scripts/enp1s0f1.12*
