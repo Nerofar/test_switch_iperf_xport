@@ -116,17 +116,17 @@ clear
 case $CHOICE in
       1)
       let port_ip=$ports
-      for x in $(seq 1200 $ports_ip)
+      for z in $(seq 1200 $ports_ip)
       do
-      let y=${x}-1200
+      let a=${z}-1200
       #создание чёт вход, нечёт выход
-      evenCheck=$(expr ${x} % 2)
+      evenCheck=$(expr ${z} % 2)
         if [ $evenCheck = 0 ] ;
           then
-            ip netns exec iperf-server${x} iperf3 -s --logfile s${x}.log &
+            ip netns exec iperf-server${z} iperf3 -s --logfile s${z}.log &
             #tail -F s${x}.log | grep -Po '[0-9.= A-Z]*( ?bits/sec)' >> ss.log &
           else
-            ip netns exec iperf-client${x} iperf3 -c 10.0.${y}.11 -P 10 -t ${time} &
+            ip netns exec iperf-client${z} iperf3 -c 10.0.${a}.11 -P 10 -t ${time} &
         fi
       done
       # tail -F ss.log | grep -Po '[0-9.= A-Z]*( ?bits/sec)'
