@@ -115,6 +115,7 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
       1)
+      ports=`cat /tmp/ports`
       let ports=$ports+1200-1
       for x in $(seq 1200 $ports)
       do
