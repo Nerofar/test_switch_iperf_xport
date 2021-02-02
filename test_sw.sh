@@ -92,6 +92,7 @@ done
 
 
 $DIALOG --title "Testing switch" --msgbox "etap 5" 10 40
+ports=`cat /tmp/ports`
 HEIGHT=15
 WIDTH=40
 CHOICE_HEIGHT=4
@@ -137,6 +138,10 @@ case $CHOICE in
 
       ;;
 esac
+rm -fr /tmp/outfe
+rm -fr /tmp/infe
+rm -fr /tmp/ports
+rm -fr /tmp/time
 ## iperf start
 # ip netns exec iperf-server${x} iperf3 -s --logfile s3.txt
 # ip netns exec iperf-client${x} iperf3 -c 10.0.${y}.11 -P 10 -t 300
