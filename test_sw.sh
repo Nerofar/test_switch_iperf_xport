@@ -30,11 +30,11 @@ clear
 outfe=`cat /tmp/outfe`
 #set number ports of testing switch
 $DIALOG --title "Testing switch" --msgbox "etap 3" 10 40
-$DIALOG --title "Number ports" --inputbox " \nК-во проверяемых портов:" 16 51 2> /tmp/ports
+$DIALOG --title "Number ports" --inputbox " \nК-во проверяемых портов:" 10 40 2> /tmp/ports
 ports=`cat /tmp/ports`
 $DIALOG --title "Testing switch" --msgbox "etap 4" 10 40
 $DIALOG --title "Testing switch" --msgbox "к-во портов свича $ports" 10 40
-$DIALOG --title "Time sec" --inputbox " \nВремя проверки в сек.:" 16 51 2> /tmp/time
+$DIALOG --title "Time sec" --inputbox " \nВремя проверки в сек.:" 10 40 2> /tmp/time
 time=`cat /tmp/time`
 # cleaning temp file
 
@@ -92,15 +92,25 @@ done
 
 
 $DIALOG --title "Testing switch" --msgbox "etap 5" 10 40
-TITLE="any"
-MENU="Исходящий свич:"
-OPTIONS=(1 "D-link"
-         2 "Zysel"
-         3 "quit")
+HEIGHT=15
+WIDTH=40
+CHOICE_HEIGHT=4
+BACKTITLE="Choice test opt"
+TITLE="Test switch"
+MENU="Choose one of the following options:"
 
-              CHOICE=$(dialog --clear --title "$TITLE" --menu "$MENU" $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                      "${OPTIONS[@]}" \
-                      2>&1 >/dev/tty)
+OPTIONS=(1 "Test iperf3"
+         2 "Test ping"
+         3 "Quit")
+
+CHOICE=$(dialog --clear \
+                --backtitle "$BACKTITLE" \
+                --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
 clear
 case $CHOICE in
       1)
@@ -114,7 +124,7 @@ case $CHOICE in
           then
             ip netns exec iperf-server${x} iperf3 -s --logfile s${x}.log &
           else
-            ip netns exec iperf-client${x} iperf3 -c 10.0.${y}.11 -P 10 -t ${time}
+            ip netns exec iperf-client${x} iperf3 -c 10.0.${y}.11 -P 10 -t ${time} &
         fi
       done
 
