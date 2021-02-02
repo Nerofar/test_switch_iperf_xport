@@ -123,12 +123,12 @@ case $CHOICE in
         if [ $evenCheck = 0 ] ;
           then
             ip netns exec iperf-server${x} iperf3 -s --logfile s${x}.log &
-            tail -F s${x}.log | grep -Po '[0-9.= A-Z]*( ?bits/sec)' >> ss.log &
+            #tail -F s${x}.log | grep -Po '[0-9.= A-Z]*( ?bits/sec)' >> ss.log &
           else
             ip netns exec iperf-client${x} iperf3 -c 10.0.${y}.11 -P 10 -t ${time} &
         fi
       done
-      tail -F ss.log | grep -Po '[0-9.= A-Z]*( ?bits/sec)'
+      # tail -F ss.log | grep -Po '[0-9.= A-Z]*( ?bits/sec)'
       ;;
       2)
 
