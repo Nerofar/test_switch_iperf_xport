@@ -115,7 +115,7 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
       1)
-      let port_ip=$ports
+      let ports_ip=$ports
       for z in $(seq 1200 $ports_ip)
       do
       let a=${z}-1200
