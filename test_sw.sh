@@ -44,7 +44,8 @@ rm -fr /tmp/ports
 rm -fr /tmp/time
 
 let ports=$ports+1200-1
-for x in $(seq 1200 $ports)
+let port_sw=$ports
+for x in $(seq 1200 $port_sw)
 do
 let y=${x}-1200
 #modprobe 8021q
@@ -92,7 +93,6 @@ done
 
 
 $DIALOG --title "Testing switch" --msgbox "etap 5" 10 40
-ports=`cat /tmp/ports`
 HEIGHT=15
 WIDTH=40
 CHOICE_HEIGHT=4
@@ -115,9 +115,8 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
       1)
-      ports=`cat /tmp/ports`
-      let ports=$ports+1200-1
-      for x in $(seq 1200 $ports)
+      let port_ip=$ports
+      for x in $(seq 1200 $ports_ip)
       do
       let y=${x}-1200
       #создание чёт вход, нечёт выход
@@ -139,10 +138,7 @@ case $CHOICE in
 
       ;;
 esac
-rm -fr /tmp/outfe
-rm -fr /tmp/infe
-rm -fr /tmp/ports
-rm -fr /tmp/time
+
 ## iperf start
 # ip netns exec iperf-server${x} iperf3 -s --logfile s3.txt
 # ip netns exec iperf-client${x} iperf3 -c 10.0.${y}.11 -P 10 -t 300
