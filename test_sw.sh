@@ -38,10 +38,7 @@ $DIALOG --title "Time sec" --inputbox " \nВремя проверки в сек.
 time=`cat /tmp/time`
 # cleaning temp file
 
-rm -fr /tmp/outfe
-rm -fr /tmp/infe
-rm -fr /tmp/ports
-rm -fr /tmp/time
+
 
 let ports=$ports+1200-1
 let port_sw=$ports
@@ -115,6 +112,7 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
       1)
+      ports=`cat /tmp/ports`
       let ports_ip=$ports
       for z in $(seq 1200 $ports_ip)
       do
@@ -138,6 +136,11 @@ case $CHOICE in
 
       ;;
 esac
+
+rm -fr /tmp/outfe
+rm -fr /tmp/infe
+rm -fr /tmp/ports
+rm -fr /tmp/time
 
 ## iperf start
 # ip netns exec iperf-server${x} iperf3 -s --logfile s3.txt
