@@ -124,12 +124,9 @@ case $CHOICE in
           then
             ip netns exec iperf-server${z} iperf3 -s --logfile s${z}.log &
           ##
-          $DIALOG --title "Testing switch" --msgbox "test 1 переменная x ${z}и y ${a}" 10 40
+          $DIALOG --title "Testing switch" --msgbox "test 1 переменная z iperf-server${z}и a 10.0.${a}.11 \n iperf-server${x} 10.0.${y}.11/24" 10 40
           else
             ip netns exec iperf-client${z} iperf3 -c 10.0.${a}.11 -P 10 -t ${time} &
-      #    ip netns exec iperf-client${x} ip addr add dev ${outfe}.${x} 10.0.${y}.12/24
-      #    ip netns exec iperf-client${x} ip link set dev ${outfe}.${x} up
-          ##
           ##
           $DIALOG --title "Testing switch" --msgbox "test 1 переменная x ${z}и y ${a}" 10 40
         fi
