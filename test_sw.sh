@@ -116,20 +116,17 @@ case $CHOICE in
       for z in $(seq 1200 $port_ip)
       do
       let a=${z}-1200
-      #modprobe 8021q
-      #создание влан чёт вход, нечёт выход
-
         evenCheck=$(expr ${z} % 2)
         if [ $evenCheck = 0 ] ;
           then
             ip netns exec iperf-server${z} iperf3 -s --logfile s${z}.log &
           ##
-          #$DIALOG --title "Testing switch" --msgbox "test 1 переменная z iperf-server${z}и a 10.0.${a}.11 \n iperf-server${x} 10.0.${y}.11/24" 10 40
+          $DIALOG --title "Testing switch" --msgbox "test 1 переменная iperf-s:\n iperf-server${z} и a 10.0.${a}.11 \n iperf-server${x} 10.0.${y}.11/24" 10 40
           else
             let y=${a}-1
-            ip netns exec iperf-client${z} iperf3 -c 10.0.${a}.11 -P 10 -t ${time} &
+            ip netns exec iperf-client${z} iperf3 -c 10.0.${a}.11 -t ${time} &
           ##
-          #$DIALOG --title "Testing switch" --msgbox "test 1 переменная x ${z}и y ${a}" 10 40
+          $DIALOG --title "Testing switch" --msgbox "test 2 переменная iperf-c:\n iperf-client${z} и a 10.0.${a}.11 \n iperf-client${x} 10.0.${y}.11/24" 10 40
         fi
 
       #
