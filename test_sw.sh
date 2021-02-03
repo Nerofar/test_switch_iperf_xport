@@ -112,22 +112,31 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
       1)
-      ports=`cat /tmp/ports`
-      let ports_ip=$ports
-      for z in $(seq 1200 $ports_ip)
+      let port_ip=$ports
+      for z in $(seq 1200 $port_ip)
       do
       let a=${z}-1200
-      #создание чёт вход, нечёт выход
-      evenCheck=$(expr ${z} % 2)
+      #modprobe 8021q
+      #создание влан чёт вход, нечёт выход
+
+        evenCheck=$(expr ${z} % 2)
         if [ $evenCheck = 0 ] ;
           then
             ip netns exec iperf-server${z} iperf3 -s --logfile s${z}.log &
-            #tail -F s${x}.log | grep -Po '[0-9.= A-Z]*( ?bits/sec)' >> ss.log &
+          ##
+          $DIALOG --title "Testing switch" --msgbox "test 1 переменная x ${z}и y ${a}" 10 40
           else
             ip netns exec iperf-client${z} iperf3 -c 10.0.${a}.11 -P 10 -t ${time} &
+      #    ip netns exec iperf-client${x} ip addr add dev ${outfe}.${x} 10.0.${y}.12/24
+      #    ip netns exec iperf-client${x} ip link set dev ${outfe}.${x} up
+          ##
+          ##
+          $DIALOG --title "Testing switch" --msgbox "test 1 переменная x ${z}и y ${a}" 10 40
         fi
+
+      #
       done
-      # tail -F ss.log | grep -Po '[0-9.= A-Z]*( ?bits/sec)'
+
       ;;
       2)
 
@@ -150,3 +159,9 @@ rm -fr /tmp/time
 ##rm -fr /etc/sysconfig/network-scripts/enp1s0f1.12*
 ##delete all namespace
 ##ip -all netns delete
+
+# iperf server & client
+#ip netns exec iperf-server${z} iperf3 -s --logfile s${z}.log &
+#ip netns exec iperf-client${z} iperf3 -c 10.0.${a}.11 -P 10 -t ${time} &
+
+# tail -F ss.log | grep -Po '[0-9.= A-Z]*( ?bits/sec)'
