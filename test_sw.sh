@@ -141,7 +141,7 @@ case $CHOICE in
         evenCheck=$(expr ${z} % 2)
         if [ $evenCheck = 0 ] ;
           then
-
+            echo "ok"
           ##
           #$DIALOG --title "Testing switch" --msgbox "test 1 переменная iperf-s:\n iperf-server${z} и a 10.0.${a}.11 \n iperf-server${x} 10.0.${y}.11/24" 10 40
           else
