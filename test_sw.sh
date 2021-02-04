@@ -119,7 +119,7 @@ case $CHOICE in
         evenCheck=$(expr ${z} % 2)
         if [ $evenCheck = 0 ] ;
           then
-            ip netns exec iperf-server${z} iperf3 -s --logfile s${z}.log &
+            ip netns exec iperf-server${z} iperf3 -s --logfile s${z}.log & 2> /dev/null
           ##
           #$DIALOG --title "Testing switch" --msgbox "test 1 переменная iperf-s:\n iperf-server${z} и a 10.0.${a}.11 \n iperf-server${x} 10.0.${y}.11/24" 10 40
           else
