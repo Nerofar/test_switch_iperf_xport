@@ -90,7 +90,7 @@ done
 
 
 $DIALOG --title "Testing switch" --msgbox "etap 5" 10 40
-HEIGHT=15
+HEIGHT=10
 WIDTH=40
 CHOICE_HEIGHT=4
 BACKTITLE="Choice test opt"
@@ -124,9 +124,9 @@ case $CHOICE in
           $DIALOG --title "Testing switch" --msgbox "test 1 переменная iperf-s:\n iperf-server${z} и a 10.0.${a}.11 \n iperf-server${x} 10.0.${y}.11/24" 10 40
           else
             let y=${a}-1
-            ip netns exec iperf-client${z} iperf3 -c 10.0.${a}.12 -t ${time}
+            ip netns exec iperf-client${z} iperf3 -c 10.0.${a}.11 -t ${time}
           ##
-          $DIALOG --title "Testing switch" --msgbox "test 2 переменная iperf-c:\n iperf-client${z} и a 10.0.${a}.11 \n iperf-client${x} 10.0.${y}.11/24" 10 40
+          $DIALOG --title "Testing switch" --msgbox "test 2 переменная iperf-c:\n iperf-client${z} и a 10.0.${a}.12 \n iperf-client${x} 10.0.${y}.12/24" 10 40
         fi
 
       #
