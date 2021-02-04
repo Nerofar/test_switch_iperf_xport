@@ -134,6 +134,25 @@ case $CHOICE in
 
       ;;
       2)
+      let port_ip=$ports
+      for z in $(seq 1200 $port_ip)
+      do
+      let a=${z}-1200
+        evenCheck=$(expr ${z} % 2)
+        if [ $evenCheck = 0 ] ;
+          then
+
+          ##
+          #$DIALOG --title "Testing switch" --msgbox "test 1 переменная iperf-s:\n iperf-server${z} и a 10.0.${a}.11 \n iperf-server${x} 10.0.${y}.11/24" 10 40
+          else
+            let a=${a}-1
+            ip netns exec iperf-client${z} ping 10.0.${a}.11 -s 1024 -c ${time} -i 1 >./ping${z}.log 2>/dev/null &
+          ##
+          #$DIALOG --title "Testing switch" --msgbox "test 2 переменная iperf-c:\n iperf-client${z} и a 10.0.${a}.12 \n iperf-client${x} 10.0.${y}.12/24" 10 40
+        fi
+
+      #
+      done
 
       ;;
       3)
